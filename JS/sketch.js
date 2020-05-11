@@ -1,112 +1,50 @@
-let l = 90;
-let m = 15;
-let a = 0.01;
-let a_vel = 0;
-let a_acc = 0;
-let g = 0.02;
-let cx;
-let cy;
-let cxo;
-let cyo;
+let arr_rør;
+let player1;
+let player_x;
+let player_y;
+let points = 0;
+let dead = false;
+let highscore = 0;
 
-class player {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-  }
+function setup() {
+  // Sætter skærm størrelsen
+  createCanvas(600, 600);
 
-  vis() {
-    fill(255);
+  player_x = width/2;
+  player_y = height/2;
 
-    fill(0);
-    rectMode(CENTER);
-    rect(this.x, this.y, this.w, this.h);
-    rectMode(CORNER)
-
-    stroke(0);
-    strokeWeight(2);
-
-    cx = l * sin(a);
-    cy = l * cos(a);
-
-    cxo = -cx + this.x;
-    cyo = -cy + this.y;
-
-    // Tegner pendulet
-    line(this.x, this.y, -cx + this.x, -cy + this.y);
-    fill(0);
-    ellipse(cxo, cyo, m, m);
-
-
-    // Udregner acceleration, hastighed og pendulets position
-    // Se evt. opgave for udledelse
-    a_acc = -g / -l * sin(a);
-    a_vel += a_acc;
-    a += a_vel;
-  }
-
-  update() {
-    //this.y = this.y + 1;
-    //print(x);
-    if (cy < 0 && (a = PI / 2)) {
-      a = (3 * PI) / 2;
-    }
-
-    // Tjekker om man dør ved at tabe pendulet
-    if (a == ((3 * PI) / 2)) dead = true;
-
-    if (this.y > height - 15) {
-      this.y = height - 15;
-    }
-  }
+  player = new player(player_x, player_y, 35, 15); // x, y, rect (x;y)
+  arr_rør = [new rør(width, 25, 4), // x, b, hastighed
+             new rør(width * 1.5, 25, 4)];
 }
 
-// Movement
-function keyPressed() {
-  if (!dead) {
-    if (keyCode == LEFT_ARROW) {
-      if (a < 1) {
-        a_vel += 0.02;
-      } else if (a > -1) {
-        a_vel += 0.02;
-      } else {
-        a_vel += 0.04;
-      }
+function draw() {
+  // Baggrundsfarve
+  background(0,100,255);
 
-    } else if (keyCode == RIGHT_ARROW) {
-      if (a < 1) {
-        a_vel -= 0.02;
-      } else if (a > -1) {
-        a_vel -= 0.02;
-      } else {
-        a_vel -= 0.04;
-      }
-    }
+  // Kalder update og vis for player
+  player.update();
+  player.vis();
 
-    if (keyCode == UP_ARROW) {
-      player.y -= 7;
-    } else if (keyCode == DOWN_ARROW) {
-      player.y += 7;
-    }
-  }
+  // Kalder update og vis for hver rør
+  arr_rør.forEach(r => {
+    if (!dead) r.update();
+    r.vis();
+  });
 
-  if (keyCode == 82) {
-    a = 0.01;
-    a_vel = 0;
-    a_acc = 0;
-    g = 0.02;
-    cx = l * sin(a);
-    cy = l * cos(a);
-    cxo = -cx + this.x;
-    cyo = -cy + this.y;
-    points = 0;
-    player.x = width / 2;
-    player.y = height / 2;
-    arr_rør[0].x = width;
-    arr_rør[1].x = width * 1.5;
-    dead = false;
-    bool = true;
+  if (points > highscore) highscore = points
+
+  textAlign(RIGHT, TOP);
+  textSize(16);
+  fill(0)
+  text(points + " point",width-10, 10);
+  text(highscore + " highscore", width-10, 40)
+
+  textAlign(CENTER);
+  textSize(18)
+  fill(255, 0, 0)
+  if (dead) {
+    text("GAME OVER. Du fik " + points + " point", width/2, height/1.9);
+    text("Tryk 'r' for at spille igen", width/2, height/1.75)
   }
 }

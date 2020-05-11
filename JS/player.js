@@ -39,7 +39,6 @@ class player {
     fill(0);
     ellipse(cxo, cyo, m, m);
 
-
     // Udregner acceleration, hastighed og pendulets position
     // Se evt. opgave for udledelse
     a_acc = -g / -l * sin(a);
@@ -56,12 +55,6 @@ class player {
 
     // Tjekker om man dør ved at tabe pendulet
     if (a == ((3 * PI) / 2)) dead = true;
-
-
-
-    if (this.y > height - 15) {
-      this.y = height - 15;
-    }
   }
 }
 

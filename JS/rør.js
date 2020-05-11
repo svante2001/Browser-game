@@ -9,8 +9,6 @@ class rør {
     this.top = random(80, (height / 2) - 65);
     this.bund = random(80, (height / 2) - 65);
 
-
-
     // Sætter variablerne til lokale i denne klasse
     this.x = x;
     this.b = b;
@@ -45,7 +43,6 @@ class rør {
       points++;
       bool = false;
     }
-
 
     // Tjekker om man dør
     // Rect
