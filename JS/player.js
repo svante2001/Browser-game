@@ -10,6 +10,7 @@ let cxo;
 let cyo;
 
 class player {
+  // x = x, y = y, w = width, h = height
   constructor(x, y, w, h) {
     this.x = x;
     this.y = y;
@@ -18,16 +19,15 @@ class player {
   }
 
   vis() {
-    fill(255);
-
+    // Tegner rektanglen i der "holder" pedulet
     fill(0);
     rectMode(CENTER);
     rect(this.x, this.y, this.w, this.h);
     rectMode(CORNER)
-
     stroke(0);
     strokeWeight(2);
 
+    // cirkel x og y koordinat
     cx = l * sin(a);
     cy = l * cos(a);
 
@@ -69,7 +69,6 @@ function keyPressed() {
       } else {
         a_vel += 0.04;
       }
-
     } else if (keyCode == RIGHT_ARROW) {
       if (a < 1) {
         a_vel -= 0.02;
@@ -87,6 +86,8 @@ function keyPressed() {
     }
   }
 
+  // 82 = r
+  // Genstarter spillet men bibeholder highscore
   if (keyCode == 82) {
     a = 0.01;
     a_vel = 0;
@@ -103,5 +104,10 @@ function keyPressed() {
     arr_rør[1].x = width * 1.5;
     dead = false;
     bool = true;
+  }
+
+  // Starter spillet
+  if (keyCode == ENTER) {
+    state = true;
   }
 }
